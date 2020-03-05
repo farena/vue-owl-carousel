@@ -216,6 +216,7 @@ export default {
   },
   data: function() {
     return {
+      owlElement: null,
       showPrev: false,
       showNext: true,
 
@@ -226,7 +227,7 @@ export default {
   },
 
   mounted: function() {
-    const owl = $('#' + this.elementHandle).owlCarousel({
+    this.owlElement = $('#' + this.elementHandle).owlCarousel({
       items: this.items,
       margin: this.margin,
       loop: this.loop,
@@ -277,22 +278,22 @@ export default {
       checkVisible: this.checkVisible,
     });
 
-    $('#' + this.prevHandler).click(function() {
-      owl.trigger('prev.owl.carousel');
+    $('#' + this.prevHandler).click(() => {
+      this.owlElement.trigger('prev.owl.carousel');
     });
 
-    $('#' + this.nextHandler).click(function() {
-      owl.trigger('next.owl.carousel');
+    $('#' + this.nextHandler).click(() => {
+      this.owlElement.trigger('next.owl.carousel');
     });
 
     events.forEach((eventName) => {
-      owl.on(`${eventName}.owl.carousel`, (event) => {
+      this.owlElement.on(`${eventName}.owl.carousel`, (event) => {
         this.$emit(eventName, event);
       });
     });
 
     if (!this.loop) {
-      owl.on('changed.owl.carousel', (event) => {
+      this.owlElement.on('changed.owl.carousel', (event) => {
         // start
         if (event.item.index === 0) {
           this.showPrev = false;
@@ -315,6 +316,13 @@ export default {
   methods: {
     generateUniqueId() {
       return Math.random().toString(36).substring(2, 15);
+    },
+    triggerEvent(eventName, params = null) {
+      if (params) {
+        this.owlElement.trigger(eventName, params);
+      } else {
+        this.owlElement.trigger(eventName);
+      }
     },
   },
 };
