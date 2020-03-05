@@ -86,6 +86,27 @@ Set events,
 </carousel>
 ```
 
+
+Trigger events.
+
+You can see more events here [Owl Carousel Docs (Events)](http://owlcarousel2.github.io/OwlCarousel2/docs/api-events.html)
+
+```
+<carousel ref="carousel">
+
+//
+
+</carousel>
+
+export default {
+    methods: {
+        nextItem() {
+            this.$refs.carousel.triggerEvent('next.owl.carousel');
+        },
+    }
+}
+```
+
 ## Available options
 
 Currently following options are available.
